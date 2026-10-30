@@ -2,15 +2,25 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Minimal program page: adds status, dates, location, summary and PDF links
- * around the normal content, so "Learn More" leads somewhere useful.
- * It works inside any theme because it uses the_content, not a custom template.
- * (A fuller template comes in a later release.)
+ * The program page: a details panel (status, dates, location, type, Book button) above the
+ * normal content, then Summary, Gallery (past programs), Downloads and the enquiry form.
+ *
+ * It works inside any theme because it hooks into the_content instead of replacing the
+ * theme's template; the theme keeps control of the page title banner and the featured image.
  */
 class PRI_PM_Single {
 
 	public static function init() {
 		add_filter( 'the_content', array( __CLASS__, 'filter' ) );
+	}
+
+	/** Section heading. The class lets frontend.css beat themes that style bare h2 tags. */
+	public static function title( $text ) {
+		return '<h2 class="pri-section-title">' . esc_html( $text ) . '</h2>';
+	}
+
+	private static function fact( $label, $value_html ) {
+		return '<li><span class="pri-fact-label">' . esc_html( $label ) . '</span><span class="pri-fact-value">' . $value_html . '</span></li>';
 	}
 
 	public static function filter( $content ) {
@@ -24,18 +34,35 @@ class PRI_PM_Single {
 		$id      = get_the_ID();
 		$status  = PRI_PM_Status::get_status( $id );
 		$loc     = get_post_meta( $id, '_pri_location', true );
+		$time    = get_post_meta( $id, '_pri_start_time', true );
 		$summary = get_post_meta( $id, '_pri_summary', true );
 
-		$head  = '<div class="pri-single-meta">' . PRI_PM_Helpers::badge( $status );
-		$head .= '<span class="pri-date">' . esc_html( PRI_PM_Helpers::date_range( $id ) ) . '</span>';
+		// ---- Details panel ----
+		$facts = self::fact( __( 'Date', 'pri-programs-manager' ), esc_html( PRI_PM_Helpers::date_range( $id ) ) );
+		if ( $time ) {
+			$facts .= self::fact( __( 'Time', 'pri-programs-manager' ), esc_html( mysql2date( get_option( 'time_format' ), '2000-01-01 ' . $time ) ) );
+		}
 		if ( $loc ) {
-			$head .= '<span class="pri-loc">' . esc_html( $loc ) . '</span>';
+			$facts .= self::fact( __( 'Location', 'pri-programs-manager' ), esc_html( $loc ) );
+		}
+		$terms = get_the_terms( $id, PRI_PM_Post_Types::TAXONOMY );
+		if ( is_array( $terms ) && $terms ) {
+			$facts .= self::fact( __( 'Type', 'pri-programs-manager' ), esc_html( implode( ', ', wp_list_pluck( $terms, 'name' ) ) ) );
+		}
+
+		$head  = '<div class="pri-single-meta">';
+		$head .= '<div class="pri-single-status">' . PRI_PM_Helpers::badge( $status ) . '</div>';
+		$head .= '<ul class="pri-facts">' . $facts . '</ul>';
+		if ( 'past' !== $status ) {
+			// Jumps to the enquiry form at the bottom of this page.
+			$head .= '<a class="pri-btn pri-btn-primary" href="#pri-enquiry">' . esc_html__( 'Book Your Spot', 'pri-programs-manager' ) . '</a>';
 		}
 		$head .= '</div>';
 
+		// ---- Sections below the content ----
 		$tail = '';
 		if ( $summary ) {
-			$tail .= '<section id="pri-stories" class="pri-single-section"><h2>' . esc_html__( 'Summary', 'pri-programs-manager' ) . '</h2>'
+			$tail .= '<section id="pri-stories" class="pri-single-section">' . self::title( __( 'Summary', 'pri-programs-manager' ) )
 				. wpautop( esc_html( $summary ) ) . '</section>';
 		}
 		// Photos and videos are shown only once the program is over.
@@ -44,7 +71,7 @@ class PRI_PM_Single {
 		}
 		$docs = PRI_PM_Helpers::docs_list( $id );
 		if ( $docs ) {
-			$tail .= '<section id="pri-documents" class="pri-single-section"><h2>' . esc_html__( 'Downloads', 'pri-programs-manager' ) . '</h2>' . $docs . '</section>';
+			$tail .= '<section id="pri-documents" class="pri-single-section">' . self::title( __( 'Downloads', 'pri-programs-manager' ) ) . $docs . '</section>';
 		}
 
 		// Enquiry form (hidden automatically for past programs).

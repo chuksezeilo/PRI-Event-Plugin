@@ -2,12 +2,19 @@
 Author: Chuks Ezeilo
 Requires at least: 5.8
 Requires PHP: 7.4
-Stable tag: 0.5.0
+Stable tag: 0.6.0
 License: GPLv2 or later
 
 Organise programs, retreats and workshops with automatic Upcoming / Ongoing / Past status.
 
 == Changelog ==
+
+= 0.6.0 =
+* Programs > Settings: button colours (with live preview and reset), editable Services list, "delete all data on uninstall" option
+* [pri_services] shortcode: accordion of core offerings (title, open, single attributes)
+* Program page: details panel (status, date, time, location, type) with Book Your Spot button
+* Section headings (Summary, Gallery, Downloads, Enquire) now styled consistently on any theme
+* uninstall.php: removes the daily job always; removes programs, types and settings only if the option is ticked
 
 = 0.5.0 =
 * Event Gallery box: add many photos at once (drag to reorder) and videos (YouTube link, Vimeo link or uploaded video file)

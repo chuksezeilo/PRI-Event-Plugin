@@ -321,7 +321,7 @@ class PRI_PM_Enquiry {
 		$open = $scope ? array() : self::open_programs();
 		$k    = (int) $scope; // Makes field ids unique when two forms share a page.
 		?>
-		<h2 class="pri-enquiry-title"><?php esc_html_e( 'Book Your Spot / Enquire', 'pri-programs-manager' ); ?></h2>
+		<h2 class="pri-enquiry-title pri-section-title"><?php esc_html_e( 'Book Your Spot / Enquire', 'pri-programs-manager' ); ?></h2>
 		<p class="pri-enquiry-intro"><?php esc_html_e( 'Send us a message and we will reply by email.', 'pri-programs-manager' ); ?></p>
 
 		<?php if ( isset( $err['form'] ) ) : ?>

@@ -149,7 +149,7 @@ class PRI_PM_Gallery {
 
 		$title = get_the_title( $post_id );
 		$html  = '<section id="pri-gallery" class="pri-single-section pri-gallery">';
-		$html .= '<h2>' . esc_html__( 'Gallery', 'pri-programs-manager' ) . '</h2>';
+		$html .= PRI_PM_Single::title( __( 'Gallery', 'pri-programs-manager' ) );
 
 		if ( $photos ) {
 			$html .= '<h3 class="pri-gallery-sub">' . esc_html__( 'Photos', 'pri-programs-manager' ) . '</h3>';

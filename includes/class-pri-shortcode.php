@@ -26,6 +26,8 @@ class PRI_PM_Shortcode {
 	/** Registered on every page but only loaded (enqueued) when the shortcode is used. */
 	public static function register_assets() {
 		wp_register_style( 'pri-pm-frontend', PRI_PM_URL . 'assets/css/frontend.css', array(), PRI_PM_VERSION );
+		// Button colours chosen in Programs > Settings > Appearance.
+		wp_add_inline_style( 'pri-pm-frontend', PRI_PM_Settings::inline_css() );
 		wp_register_script( 'pri-pm-frontend', PRI_PM_URL . 'assets/js/frontend.js', array(), PRI_PM_VERSION, true );
 	}
 

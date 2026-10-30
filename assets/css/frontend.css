@@ -1,7 +1,8 @@
 /* PRI Programs Manager - front end. Colours are variables so they are easy to change. */
 .pri-programs,
 .pri-single-meta,
-.pri-single-section {
+.pri-single-section,
+.pri-services {
 	--pri-from: #d946ef;      /* gradient start (Book button) */
 	--pri-to: #06b6d4;        /* gradient end */
 	--pri-text: #1f2937;
@@ -61,16 +62,16 @@
 
 /* ---------- Buttons ---------- */
 .pri-card-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
-.pri-programs a.pri-btn {
+.pri-programs a.pri-btn, .pri-single-meta a.pri-btn {
 	flex: 1 1 auto; text-align: center; text-decoration: none;
 	padding: 10px 16px; border-radius: 999px; font-size: 14px; font-weight: 600; line-height: 1.2;
 	border: 1px solid transparent; transition: opacity .15s, box-shadow .15s;
 }
-.pri-programs a.pri-btn:hover { opacity: .9; }
-.pri-programs a.pri-btn-primary { color: #fff; background: linear-gradient(90deg, var(--pri-from), var(--pri-to)); }
-.pri-programs a.pri-btn-muted   { color: #fff; background: #6b7280; }
-.pri-programs a.pri-btn-outline { color: var(--pri-text); background: #fff; border-color: var(--pri-border); }
-.pri-programs a.pri-btn-outline:hover { border-color: #9ca3af; opacity: 1; }
+.pri-programs a.pri-btn:hover, .pri-single-meta a.pri-btn:hover { opacity: .9; }
+.pri-programs a.pri-btn-primary, .pri-single-meta a.pri-btn-primary { color: #fff; background: linear-gradient(90deg, var(--pri-from), var(--pri-to)); }
+.pri-programs a.pri-btn-muted, .pri-single-meta a.pri-btn-muted   { color: #fff; background: var(--pri-btn-muted, #6b7280); }
+.pri-programs a.pri-btn-outline, .pri-single-meta a.pri-btn-outline { color: var(--pri-text); background: #fff; border-color: var(--pri-border); }
+.pri-programs a.pri-btn-outline:hover, .pri-single-meta a.pri-btn-outline:hover { border-color: #9ca3af; opacity: 1; }
 
 /* ---------- PDF links ---------- */
 .pri-docs { list-style: none; margin: 14px 0 0; padding: 12px 0 0; border-top: 1px solid var(--pri-border); display: flex; flex-wrap: wrap; gap: 6px 14px; }
@@ -173,3 +174,62 @@ html.pri-lb-open { overflow: hidden; }
 	.pri-photos { grid-template-columns: repeat(2, 1fr); }
 	.pri-videos { grid-template-columns: 1fr; }
 }
+
+/* ---------- v0.6 Headings ----------
+   Many themes style bare h2/h3 tags with their own (often thin, oversized) look. These rules carry a class and
+   !important on size and weight so program pages look the same on any theme. */
+.pri-single-section .pri-section-title,
+.pri-enquiry .pri-section-title {
+	position: relative; margin: 0 0 20px !important; padding: 0 0 12px;
+	font-size: 1.65rem !important; font-weight: 700 !important; line-height: 1.25 !important;
+	letter-spacing: 0 !important; text-transform: none !important; color: var(--pri-text);
+}
+.pri-section-title::after {
+	content: ""; position: absolute; left: 0; bottom: 0; width: 56px; height: 3px; border-radius: 3px;
+	background: linear-gradient(90deg, var(--pri-from, #d946ef), var(--pri-to, #06b6d4));
+}
+.pri-gallery .pri-gallery-sub {
+	margin: 24px 0 12px !important; font-size: 1.1rem !important; font-weight: 700 !important;
+	line-height: 1.3 !important; color: var(--pri-text); text-transform: none !important; letter-spacing: 0 !important;
+}
+.pri-single-section { margin-top: 40px; }
+
+/* ---------- v0.6 Program page details panel ---------- */
+.pri-single-meta {
+	display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px;
+	margin: 0 0 32px; padding: 16px 20px; font-size: 15px;
+	background: #f9fafb; border: 1px solid var(--pri-border); border-radius: 14px;
+}
+.pri-facts { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 12px 32px; flex: 1 1 280px; }
+.pri-facts li { margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.pri-fact-label { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--pri-muted); }
+.pri-fact-value { font-size: 15px; font-weight: 600; color: var(--pri-text); }
+.pri-single-meta a.pri-btn { flex: 0 0 auto; }
+
+/* ---------- v0.6 Services accordion ---------- */
+.pri-services-title { margin: 0 0 16px !important; font-size: 1.5rem !important; font-weight: 700 !important; line-height: 1.25 !important; color: var(--pri-text); }
+.pri-services-hint { margin-left: 8px; font-size: .8rem; font-weight: 400; color: var(--pri-muted); }
+.pri-acc { background: #fff; border: 1px solid var(--pri-border); border-radius: 12px; overflow: hidden; }
+.pri-acc-item + .pri-acc-item { border-top: 1px solid var(--pri-border); }
+.pri-acc-item summary {
+	display: flex; align-items: center; justify-content: space-between; gap: 12px;
+	padding: 16px 20px; cursor: pointer; list-style: none;
+	font-size: 1rem; font-weight: 600; color: var(--pri-text);
+}
+.pri-acc-item summary::-webkit-details-marker { display: none; }
+.pri-acc-item summary:hover { background: #f9fafb; }
+.pri-acc-item summary:focus-visible { outline: 2px solid var(--pri-to, #06b6d4); outline-offset: -2px; }
+.pri-acc-chev {
+	flex: none; width: 9px; height: 9px; margin-top: -4px; color: var(--pri-muted);
+	border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); transition: transform .2s;
+}
+.pri-acc-item[open] .pri-acc-chev { margin-top: 4px; transform: rotate(-135deg); }
+.pri-acc-a { padding: 0 20px 18px; font-size: 15px; line-height: 1.6; color: var(--pri-muted); }
+.pri-acc-a p { margin: 0 0 .6em; }
+.pri-acc-a p:last-child { margin-bottom: 0; }
+
+/* Themes often style lists (bullets, left padding) and uppercase headings with selectors stronger than a single class.
+   These double-class rules keep plugin lists and titles looking the same on any theme. */
+.pri-services .pri-services-title { text-transform: none !important; letter-spacing: 0 !important; }
+.pri-single-meta .pri-facts, .pri-single-section .pri-docs, .pri-card-body .pri-docs { list-style: none; padding-left: 0; }
+.pri-single-meta .pri-facts li, .pri-single-section .pri-docs li, .pri-card-body .pri-docs li { margin: 0; padding: 0; list-style: none; }
