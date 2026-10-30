@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       PRI Programs Manager
  * Description:       Organise programs, retreats and workshops. Statuses (Upcoming, Ongoing, Past) update automatically from the dates.
- * Version:           0.6.0
+ * Version:           0.6.1
  * Author:            Chuks Ezeilo
  * Text Domain:       pri-programs-manager
  * Requires at least: 5.8
@@ -13,7 +13,7 @@
 // Block direct access: this file must only run inside WordPress.
 defined( 'ABSPATH' ) || exit;
 
-define( 'PRI_PM_VERSION', '0.6.0' );
+define( 'PRI_PM_VERSION', '0.6.1' );
 define( 'PRI_PM_FILE', __FILE__ );
 define( 'PRI_PM_DIR', plugin_dir_path( __FILE__ ) );
 define( 'PRI_PM_URL', plugin_dir_url( __FILE__ ) );
@@ -30,7 +30,6 @@ require_once PRI_PM_DIR . 'includes/class-pri-shortcode.php';
 require_once PRI_PM_DIR . 'includes/class-pri-settings.php';
 require_once PRI_PM_DIR . 'includes/class-pri-enquiry.php';
 require_once PRI_PM_DIR . 'includes/class-pri-single.php';
-require_once PRI_PM_DIR . 'includes/class-pri-services.php';
 
 PRI_PM_Post_Types::init();
 PRI_PM_Meta_Box::init();
@@ -42,7 +41,6 @@ PRI_PM_Shortcode::init();
 PRI_PM_Settings::init();
 PRI_PM_Enquiry::init();
 PRI_PM_Single::init();
-PRI_PM_Services::init();
 
 /**
  * Activation: register the post type first so its URLs exist,

@@ -74,8 +74,11 @@ class PRI_PM_Single {
 			$tail .= '<section id="pri-documents" class="pri-single-section">' . self::title( __( 'Downloads', 'pri-programs-manager' ) ) . $docs . '</section>';
 		}
 
-		// Enquiry form (hidden automatically for past programs).
-		$tail .= PRI_PM_Enquiry::render_section( $id, $status );
+		// Enquiry form (nothing for past programs). Wrapped like the other sections so it gets the same gap above it.
+		$form = PRI_PM_Enquiry::render_section( $id, $status );
+		if ( '' !== $form ) {
+			$tail .= '<div class="pri-single-section">' . $form . '</div>';
+		}
 
 		return $head . $content . $tail;
 	}

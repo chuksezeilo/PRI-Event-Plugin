@@ -5,7 +5,6 @@ defined( 'ABSPATH' ) || exit;
  * Programs > Settings.
  *   Enquiries   recipient address, thank-you message, test email (v0.4)
  *   Appearance  button colours (v0.6)
- *   Services    the list shown by the [pri_services] accordion (v0.6)
  *   Data        delete everything when the plugin is deleted (v0.6)
  *
  * Everything is stored in ONE option (pri_pm_settings), so uninstalling has one thing to remove.
@@ -14,7 +13,6 @@ class PRI_PM_Settings {
 
 	const OPTION = 'pri_pm_settings';
 	const PAGE   = 'pri-pm-settings';
-	const MAX_SERVICES = 20;
 
 	private static $hook = '';
 
@@ -95,54 +93,11 @@ class PRI_PM_Settings {
 	public static function inline_css() {
 		$c = self::colors();
 		return sprintf(
-			'.pri-programs,.pri-enquiry,.pri-single-meta,.pri-single-section,.pri-services{--pri-from:%1$s;--pri-to:%2$s;--pri-btn-muted:%3$s;}',
+			'.pri-programs,.pri-enquiry,.pri-single-meta,.pri-single-section{--pri-from:%1$s;--pri-to:%2$s;--pri-btn-muted:%3$s;}',
 			$c['from'],
 			$c['to'],
 			$c['muted']
 		);
-	}
-
-	/* ------------------------------------------------------------------ *
-	 * Services (for the accordion)
-	 * ------------------------------------------------------------------ */
-
-	/**
-	 * Starting content. The first three are the wording from the PRI Global Ventures website.
-	 * The last two are drafts (the website text for them could not be retrieved): edit them in
-	 * Programs > Settings > Services.
-	 */
-	public static function default_services() {
-		return array(
-			array(
-				'title' => 'Leadership Development & Executive Retreats',
-				'text'  => 'Flagship experiential programs tailored for public and private sector leaders.',
-			),
-			array(
-				'title' => 'Strategy & Organisational Advisory',
-				'text'  => 'Strategic planning, governance alignment, and institutional transformation.',
-			),
-			array(
-				'title' => 'Capacity Building & Training',
-				'text'  => 'Custom programs in leadership, communication, innovation, and coaching.',
-			),
-			array(
-				'title' => 'Cross-Sector Partnerships',
-				'text'  => 'We bring together institutions, industries, and communities across continents to collaborate on shared goals and create lasting, equitable impact.',
-			),
-			array(
-				'title' => 'Impact-Focused Consulting',
-				'text'  => 'Consulting that links strategy with purpose, helping organisations in education, healthcare, agriculture, and beyond achieve sustainable, measurable change.',
-			),
-		);
-	}
-
-	/** Saved list, or the defaults until the first time the list is saved. */
-	public static function services() {
-		$saved = self::get( 'services', null );
-		if ( is_array( $saved ) ) {
-			return $saved;
-		}
-		return self::default_services();
 	}
 
 	/* ------------------------------------------------------------------ *
@@ -164,7 +119,7 @@ class PRI_PM_Settings {
 		if ( $hook !== self::$hook ) {
 			return;
 		}
-		wp_enqueue_script( 'pri-pm-admin-settings', PRI_PM_URL . 'assets/js/admin-settings.js', array( 'jquery', 'jquery-ui-sortable' ), PRI_PM_VERSION, true );
+		wp_enqueue_script( 'pri-pm-admin-settings', PRI_PM_URL . 'assets/js/admin-settings.js', array( 'jquery' ), PRI_PM_VERSION, true );
 	}
 
 	public static function register() {
@@ -195,39 +150,8 @@ class PRI_PM_Settings {
 			}
 		}
 
-		// Services: rows without a title are dropped. An empty list is a valid choice (accordion shows nothing).
-		$services = array();
-		$rows     = isset( $input['services'] ) && is_array( $input['services'] ) ? $input['services'] : array();
-		foreach ( $rows as $row ) {
-			$title = isset( $row['title'] ) ? sanitize_text_field( $row['title'] ) : '';
-			if ( '' === $title ) {
-				continue;
-			}
-			$services[] = array(
-				'title' => $title,
-				'text'  => isset( $row['text'] ) ? sanitize_textarea_field( $row['text'] ) : '',
-			);
-		}
-		$clean['services'] = array_slice( $services, 0, self::MAX_SERVICES );
-
 		$clean['delete_data'] = empty( $input['delete_data'] ) ? '' : '1';
 		return $clean;
-	}
-
-	private static function service_row( $i, $row ) {
-		$name = esc_attr( self::OPTION ) . '[services][' . esc_attr( $i ) . ']';
-		?>
-		<div class="pri-svc-row">
-			<span class="pri-svc-handle dashicons dashicons-menu" title="<?php esc_attr_e( 'Drag to reorder', 'pri-programs-manager' ); ?>"></span>
-			<div class="pri-svc-fields">
-				<input type="text" class="large-text" name="<?php echo $name; // phpcs:ignore WordPress.Security.EscapeOutput ?>[title]"
-					value="<?php echo esc_attr( isset( $row['title'] ) ? $row['title'] : '' ); ?>" placeholder="<?php esc_attr_e( 'Service title', 'pri-programs-manager' ); ?>">
-				<textarea class="large-text" rows="3" name="<?php echo $name; // phpcs:ignore WordPress.Security.EscapeOutput ?>[text]"
-					placeholder="<?php esc_attr_e( 'Description shown when the service is opened', 'pri-programs-manager' ); ?>"><?php echo esc_textarea( isset( $row['text'] ) ? $row['text'] : '' ); ?></textarea>
-			</div>
-			<button type="button" class="button-link button-link-delete pri-svc-remove"><?php esc_html_e( 'Remove', 'pri-programs-manager' ); ?></button>
-		</div>
-		<?php
 	}
 
 	public static function render() {
@@ -236,7 +160,6 @@ class PRI_PM_Settings {
 		}
 		$email    = self::get( 'enquiry_email' );
 		$colors   = self::colors();
-		$services = self::services();
 		$opt      = esc_attr( self::OPTION );
 		?>
 		<div class="wrap">
@@ -255,9 +178,6 @@ class PRI_PM_Settings {
 			?>
 
 			<style>
-				.pri-svc-row{display:flex;gap:10px;align-items:flex-start;padding:10px;margin-bottom:8px;background:#fff;border:1px solid #dcdcde;border-radius:4px;max-width:760px}
-				.pri-svc-handle{cursor:move;color:#8c8f94;margin-top:6px}
-				.pri-svc-fields{flex:1}.pri-svc-fields input{margin-bottom:6px}
 				.pri-color-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
 				.pri-color-row input[type=color]{width:48px;height:32px;padding:0;border:1px solid #8c8f94;border-radius:4px}
 				.pri-grad-preview{display:inline-block;margin-top:6px;padding:9px 24px;border-radius:999px;color:#fff;font-weight:700}
@@ -318,16 +238,6 @@ class PRI_PM_Settings {
 						<td><label><input type="checkbox" name="<?php echo $opt; // phpcs:ignore WordPress.Security.EscapeOutput ?>[reset_colors]" value="1"> <?php esc_html_e( 'Reset all colours to the defaults when I save', 'pri-programs-manager' ); ?></label></td>
 					</tr>
 				</table>
-
-				<h2><?php esc_html_e( 'Services (accordion)', 'pri-programs-manager' ); ?></h2>
-				<p class="description" style="max-width:760px">
-					<?php esc_html_e( 'Shown by the shortcode [pri_services]. Drag to reorder. A row with no title is dropped when you save.', 'pri-programs-manager' ); ?>
-				</p>
-				<div id="pri-svc-list">
-					<?php foreach ( $services as $i => $row ) { self::service_row( 'r' . $i, $row ); } ?>
-				</div>
-				<p><button type="button" class="button" id="pri-svc-add"><?php esc_html_e( '+ Add service', 'pri-programs-manager' ); ?></button></p>
-				<script type="text/template" id="pri-svc-template"><?php self::service_row( '__INDEX__', array() ); ?></script>
 
 				<h2><?php esc_html_e( 'Data', 'pri-programs-manager' ); ?></h2>
 				<table class="form-table" role="presentation">

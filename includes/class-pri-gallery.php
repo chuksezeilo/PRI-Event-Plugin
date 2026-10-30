@@ -225,7 +225,7 @@ class PRI_PM_Gallery {
 			return;
 		}
 		wp_enqueue_media();
-		wp_enqueue_script( 'pri-pm-admin-gallery', PRI_PM_URL . 'assets/js/admin-gallery.js', array( 'jquery', 'jquery-ui-sortable' ), PRI_PM_VERSION, true );
+		wp_enqueue_script( 'pri-pm-admin-gallery', PRI_PM_URL . 'assets/js/admin-gallery.js', array( 'jquery', 'jquery-ui-sortable', 'wp-data' ), PRI_PM_VERSION, true );
 		wp_localize_script( 'pri-pm-admin-gallery', 'priPmGallery', array(
 			'photoTitle'  => __( 'Choose photos', 'pri-programs-manager' ),
 			'photoButton' => __( 'Add to gallery', 'pri-programs-manager' ),
@@ -233,6 +233,8 @@ class PRI_PM_Gallery {
 			'videoButton' => __( 'Use this video', 'pri-programs-manager' ),
 			'remove'      => __( 'Remove', 'pri-programs-manager' ),
 			'noFile'      => __( 'No file chosen', 'pri-programs-manager' ),
+			'badLink'     => __( 'This is not a YouTube or Vimeo video link, so it will not be saved. Paste the link from the video page, e.g. https://www.youtube.com/watch?v=... or https://vimeo.com/123456789', 'pri-programs-manager' ),
+			'badLinkNotice' => __( 'A video link was not saved: only YouTube links, Vimeo links and uploaded video files are accepted. Please check the link in the Event Gallery box.', 'pri-programs-manager' ),
 		) );
 	}
 

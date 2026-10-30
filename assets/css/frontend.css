@@ -1,8 +1,7 @@
 /* PRI Programs Manager - front end. Colours are variables so they are easy to change. */
 .pri-programs,
 .pri-single-meta,
-.pri-single-section,
-.pri-services {
+.pri-single-section {
 	--pri-from: #d946ef;      /* gradient start (Book button) */
 	--pri-to: #06b6d4;        /* gradient end */
 	--pri-text: #1f2937;
@@ -206,30 +205,10 @@ html.pri-lb-open { overflow: hidden; }
 .pri-fact-value { font-size: 15px; font-weight: 600; color: var(--pri-text); }
 .pri-single-meta a.pri-btn { flex: 0 0 auto; }
 
-/* ---------- v0.6 Services accordion ---------- */
-.pri-services-title { margin: 0 0 16px !important; font-size: 1.5rem !important; font-weight: 700 !important; line-height: 1.25 !important; color: var(--pri-text); }
-.pri-services-hint { margin-left: 8px; font-size: .8rem; font-weight: 400; color: var(--pri-muted); }
-.pri-acc { background: #fff; border: 1px solid var(--pri-border); border-radius: 12px; overflow: hidden; }
-.pri-acc-item + .pri-acc-item { border-top: 1px solid var(--pri-border); }
-.pri-acc-item summary {
-	display: flex; align-items: center; justify-content: space-between; gap: 12px;
-	padding: 16px 20px; cursor: pointer; list-style: none;
-	font-size: 1rem; font-weight: 600; color: var(--pri-text);
-}
-.pri-acc-item summary::-webkit-details-marker { display: none; }
-.pri-acc-item summary:hover { background: #f9fafb; }
-.pri-acc-item summary:focus-visible { outline: 2px solid var(--pri-to, #06b6d4); outline-offset: -2px; }
-.pri-acc-chev {
-	flex: none; width: 9px; height: 9px; margin-top: -4px; color: var(--pri-muted);
-	border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); transition: transform .2s;
-}
-.pri-acc-item[open] .pri-acc-chev { margin-top: 4px; transform: rotate(-135deg); }
-.pri-acc-a { padding: 0 20px 18px; font-size: 15px; line-height: 1.6; color: var(--pri-muted); }
-.pri-acc-a p { margin: 0 0 .6em; }
-.pri-acc-a p:last-child { margin-bottom: 0; }
-
 /* Themes often style lists (bullets, left padding) and uppercase headings with selectors stronger than a single class.
    These double-class rules keep plugin lists and titles looking the same on any theme. */
-.pri-services .pri-services-title { text-transform: none !important; letter-spacing: 0 !important; }
 .pri-single-meta .pri-facts, .pri-single-section .pri-docs, .pri-card-body .pri-docs { list-style: none; padding-left: 0; }
 .pri-single-meta .pri-facts li, .pri-single-section .pri-docs li, .pri-card-body .pri-docs li { margin: 0; padding: 0; list-style: none; }
+/* Download links keep their own look when a theme colours and underlines every link in the page content. */
+.pri-single-section .pri-docs a, .pri-card-body .pri-docs a { color: var(--pri-text); text-decoration: none; }
+.pri-single-section .pri-docs a:hover, .pri-card-body .pri-docs a:hover { text-decoration: underline; }
