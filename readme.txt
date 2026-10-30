@@ -2,12 +2,17 @@
 Author: Chuks Ezeilo
 Requires at least: 5.8
 Requires PHP: 7.4
-Stable tag: 0.1.0
+Stable tag: 0.2.0
 License: GPLv2 or later
 
 Organise programs, retreats and workshops with automatic Upcoming / Ongoing / Past status.
 
 == Changelog ==
+
+= 0.2.0 =
+* Program Documents box: attach multiple PDFs per program with labels (Syllabus, Agenda, Case Study...)
+* Drag to reorder; PDFs come from the Media Library; only real PDF files are accepted
+* PDFs count column on the Programs list
 
 = 0.1.0 =
 * Programs post type with Program Types taxonomy

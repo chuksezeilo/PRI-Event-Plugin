@@ -23,6 +23,7 @@ class PRI_PM_Admin_Columns {
 				$new['pri_dates']    = __( 'Dates', 'pri-programs-manager' );
 				$new['pri_location'] = __( 'Location', 'pri-programs-manager' );
 				$new['pri_status']   = __( 'Status', 'pri-programs-manager' );
+				$new['pri_docs']     = __( 'PDFs', 'pri-programs-manager' );
 			}
 		}
 		return $new;
@@ -44,6 +45,9 @@ class PRI_PM_Admin_Columns {
 		} elseif ( 'pri_location' === $column ) {
 			$loc = get_post_meta( $post_id, '_pri_location', true );
 			echo $loc ? esc_html( $loc ) : '&mdash;';
+		} elseif ( 'pri_docs' === $column ) {
+			$count = count( PRI_PM_Documents::get( $post_id ) );
+			echo $count ? esc_html( $count ) : '&mdash;';
 		} elseif ( 'pri_status' === $column ) {
 			$status = PRI_PM_Status::get_status( $post_id );
 			$labels = PRI_PM_Status::labels();
