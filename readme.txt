@@ -2,12 +2,18 @@
 Author: Chuks Ezeilo
 Requires at least: 5.8
 Requires PHP: 7.4
-Stable tag: 0.4.0
+Stable tag: 0.5.0
 License: GPLv2 or later
 
 Organise programs, retreats and workshops with automatic Upcoming / Ongoing / Past status.
 
 == Changelog ==
+
+= 0.5.0 =
+* Event Gallery box: add many photos at once (drag to reorder) and videos (YouTube link, Vimeo link or uploaded video file)
+* Past program pages show the event summary, a photo grid with lightbox, and a video grid
+* Past cards show photo/video counts and use the first gallery photo when there is no featured image
+* Only YouTube/Vimeo links are accepted; a rejected link is reported after saving
 
 = 0.4.0 =
 * Enquiry form ("Book Your Spot") on upcoming and ongoing program pages; emails the enquiry from the plugin with Reply-To set to the visitor

@@ -38,6 +38,10 @@ class PRI_PM_Single {
 			$tail .= '<section id="pri-stories" class="pri-single-section"><h2>' . esc_html__( 'Summary', 'pri-programs-manager' ) . '</h2>'
 				. wpautop( esc_html( $summary ) ) . '</section>';
 		}
+		// Photos and videos are shown only once the program is over.
+		if ( 'past' === $status ) {
+			$tail .= PRI_PM_Gallery::render( $id );
+		}
 		$docs = PRI_PM_Helpers::docs_list( $id );
 		if ( $docs ) {
 			$tail .= '<section id="pri-documents" class="pri-single-section"><h2>' . esc_html__( 'Downloads', 'pri-programs-manager' ) . '</h2>' . $docs . '</section>';

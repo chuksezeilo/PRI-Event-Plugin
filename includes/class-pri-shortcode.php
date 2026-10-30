@@ -172,6 +172,18 @@ class PRI_PM_Shortcode {
 
 		$thumb = get_the_post_thumbnail( $id, 'medium_large', array( 'loading' => 'lazy' ) );
 
+		// Past programs: what the gallery holds, and a fallback card image from it.
+		$n_photos = 0;
+		$n_videos = 0;
+		if ( 'past' === $status ) {
+			$photo_ids = PRI_PM_Gallery::photo_ids( $id );
+			$n_photos  = count( $photo_ids );
+			$n_videos  = count( PRI_PM_Gallery::videos( $id ) );
+			if ( ! $thumb && $photo_ids ) {
+				$thumb = wp_get_attachment_image( $photo_ids[0], 'medium_large', false, array( 'loading' => 'lazy', 'alt' => '' ) );
+			}
+		}
+
 		ob_start();
 		?>
 		<article class="pri-card pri-status-<?php echo esc_attr( $status ); ?>"
@@ -207,11 +219,29 @@ class PRI_PM_Shortcode {
 					<?php if ( 'upcoming' === $status ) : ?>
 						<!-- Jumps to the enquiry form at the bottom of the program page. -->
 						<a class="pri-btn pri-btn-primary" href="<?php echo esc_url( $link . '#pri-enquiry' ); ?>"><?php esc_html_e( 'Book Your Spot', 'pri-programs-manager' ); ?></a>
-					<?php elseif ( 'past' === $status && $summary ) : ?>
-						<a class="pri-btn pri-btn-muted" href="<?php echo esc_url( $link . '#pri-stories' ); ?>"><?php esc_html_e( 'View Gallery & Stories', 'pri-programs-manager' ); ?></a>
+					<?php elseif ( 'past' === $status && ( $summary || $n_photos || $n_videos ) ) : ?>
+						<?php // Jump to the gallery when there is one, otherwise to the written summary. ?>
+						<a class="pri-btn pri-btn-muted" href="<?php echo esc_url( $link . ( ( $n_photos || $n_videos ) ? '#pri-gallery' : '#pri-stories' ) ); ?>"><?php esc_html_e( 'View Gallery & Stories', 'pri-programs-manager' ); ?></a>
 					<?php endif; ?>
 					<a class="pri-btn pri-btn-outline" href="<?php echo esc_url( $link ); ?>"><?php esc_html_e( 'Learn More', 'pri-programs-manager' ); ?></a>
 				</div>
+
+				<?php if ( $n_photos || $n_videos ) : ?>
+					<p class="pri-card-counts">
+						<?php
+						$bits = array();
+						if ( $n_photos ) {
+							/* translators: %d: number of photos */
+							$bits[] = sprintf( _n( '%d photo', '%d photos', $n_photos, 'pri-programs-manager' ), $n_photos );
+						}
+						if ( $n_videos ) {
+							/* translators: %d: number of videos */
+							$bits[] = sprintf( _n( '%d video', '%d videos', $n_videos, 'pri-programs-manager' ), $n_videos );
+						}
+						echo esc_html( implode( ' · ', $bits ) );
+						?>
+					</p>
+				<?php endif; ?>
 
 				<?php echo PRI_PM_Helpers::docs_list( $id ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in helper. ?>
 			</div>
