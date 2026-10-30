@@ -99,3 +99,39 @@
 @media (max-width: 480px) {
 	.pri-grid { grid-template-columns: 1fr; }
 }
+
+/* ---------- Enquiry form (v0.4) ---------- */
+.pri-enquiry { --pri-from: #d946ef; --pri-to: #06b6d4; max-width: 640px; }
+.pri-enquiry-intro { color: var(--pri-muted); margin: 0 0 16px; }
+.pri-form-row { margin: 0 0 14px; }
+.pri-form-row label { display: block; font-weight: 600; font-size: 14px; margin: 0 0 5px; }
+.pri-req { color: #dc2626; }
+.pri-form input[type="text"], .pri-form input[type="email"], .pri-form input[type="tel"], .pri-form textarea {
+	width: 100%; padding: 10px 12px; font: inherit; font-size: 15px; color: var(--pri-text);
+	background: #fff; border: 1px solid #d1d5db; border-radius: 10px; box-sizing: border-box;
+}
+.pri-form input:focus, .pri-form textarea:focus { outline: 2px solid var(--pri-to); outline-offset: 1px; border-color: transparent; }
+.pri-field-error { display: block; margin-top: 4px; font-size: 13px; color: #b91c1c; }
+.pri-submit {
+	appearance: none; cursor: pointer; border: 0; font: inherit; font-weight: 700; font-size: 15px;
+	padding: 12px 28px; border-radius: 999px; color: #fff;
+	background: linear-gradient(90deg, var(--pri-from), var(--pri-to));
+}
+.pri-submit:hover { opacity: .9; }
+.pri-notice { padding: 12px 16px; border-radius: 10px; margin: 0 0 16px; font-size: 15px; }
+.pri-notice-ok  { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+.pri-notice-err { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+/* Honeypot: off-screen rather than display:none, which some bots detect and skip. */
+.pri-hp { position: absolute !important; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+/* v0.4 additions: variables the form needs outside the card/grid wrappers, dropdown style, two-column row */
+.pri-enquiry { --pri-text: #1f2937; --pri-muted: #6b7280; color: var(--pri-text); }
+.pri-enquiry-title { margin: 0 0 6px; }
+.pri-form select {
+	width: 100%; padding: 10px 12px; font: inherit; font-size: 15px; color: var(--pri-text);
+	background: #fff; border: 1px solid #d1d5db; border-radius: 10px; box-sizing: border-box;
+}
+.pri-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; }
+@media (max-width: 560px) { .pri-field-row { grid-template-columns: 1fr; } }
+.pri-submit-row { margin: 18px 0 0; }
+.pri-submit:disabled { opacity: .6; cursor: progress; }

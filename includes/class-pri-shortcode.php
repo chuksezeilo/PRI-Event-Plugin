@@ -205,7 +205,7 @@ class PRI_PM_Shortcode {
 
 				<div class="pri-card-actions">
 					<?php if ( 'upcoming' === $status ) : ?>
-						<!-- Points at #pri-enquiry on the program page; the form itself arrives in v0.4. -->
+						<!-- Jumps to the enquiry form at the bottom of the program page. -->
 						<a class="pri-btn pri-btn-primary" href="<?php echo esc_url( $link . '#pri-enquiry' ); ?>"><?php esc_html_e( 'Book Your Spot', 'pri-programs-manager' ); ?></a>
 					<?php elseif ( 'past' === $status && $summary ) : ?>
 						<a class="pri-btn pri-btn-muted" href="<?php echo esc_url( $link . '#pri-stories' ); ?>"><?php esc_html_e( 'View Gallery & Stories', 'pri-programs-manager' ); ?></a>

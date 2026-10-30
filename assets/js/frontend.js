@@ -55,8 +55,22 @@
 		apply();
 	}
 
+	// Enquiry form: disable the button once sending starts, so a double click cannot send two emails.
+	function initForm(form) {
+		var btn = form.querySelector('.pri-submit');
+		if (!btn) { return; }
+		form.addEventListener('submit', function () {
+			// Deferred: a disabled button's name/value would be left out of the posted data.
+			setTimeout(function () { btn.disabled = true; btn.textContent = 'Sending…'; }, 0);
+		});
+		// Coming back with the browser's Back button must not leave the button stuck.
+		window.addEventListener('pageshow', function () { btn.disabled = false; btn.textContent = btn.getAttribute('data-label') || btn.textContent; });
+		btn.setAttribute('data-label', btn.textContent);
+	}
+
 	function boot() {
 		Array.prototype.forEach.call(document.querySelectorAll('.pri-programs'), init);
+		Array.prototype.forEach.call(document.querySelectorAll('.pri-enquiry-form'), initForm);
 	}
 	if (document.readyState === 'loading') {
 		document.addEventListener('DOMContentLoaded', boot);

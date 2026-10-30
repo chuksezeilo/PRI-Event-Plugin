@@ -2,12 +2,20 @@
 Author: Chuks Ezeilo
 Requires at least: 5.8
 Requires PHP: 7.4
-Stable tag: 0.3.0
+Stable tag: 0.4.0
 License: GPLv2 or later
 
 Organise programs, retreats and workshops with automatic Upcoming / Ongoing / Past status.
 
 == Changelog ==
+
+= 0.4.0 =
+* Enquiry form ("Book Your Spot") on upcoming and ongoing program pages; emails the enquiry from the plugin with Reply-To set to the visitor
+* Programs > Settings: recipient email, thank-you message, Send test email button
+* Spam protection (cache-friendly, no nonce): hidden honeypot field, signed timestamp, per-IP hourly limit, cap on links in a message
+* Optional per-program recipient address ("Enquiry email" box on the program edit screen)
+* [pri_enquiry] shortcode for a stand-alone form (with a program dropdown)
+* Book Your Spot buttons on cards now lead to the form
 
 = 0.3.0 =
 * [pri_programs] shortcode: card grid with filter pills (All, status, program types) and Load More
