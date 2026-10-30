@@ -2,12 +2,18 @@
 Author: Chuks Ezeilo
 Requires at least: 5.8
 Requires PHP: 7.4
-Stable tag: 0.2.0
+Stable tag: 0.3.0
 License: GPLv2 or later
 
 Organise programs, retreats and workshops with automatic Upcoming / Ongoing / Past status.
 
 == Changelog ==
+
+= 0.3.0 =
+* [pri_programs] shortcode: card grid with filter pills (All, status, program types) and Load More
+* Attributes: status, type, limit, filters, default
+* Cards show image, status badge, dates, location, short description, Book Your Spot / Learn More / View Gallery & Stories buttons and PDF links
+* Program pages now show status, dates, location, summary and downloads
 
 = 0.2.0 =
 * Program Documents box: attach multiple PDFs per program with labels (Syllabus, Agenda, Case Study...)
