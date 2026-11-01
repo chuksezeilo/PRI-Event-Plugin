@@ -29,6 +29,18 @@ class PRI_PM_Shortcode {
 		// Button colours chosen in Programs > Settings > Appearance.
 		wp_add_inline_style( 'pri-pm-frontend', PRI_PM_Settings::inline_css() );
 		wp_register_script( 'pri-pm-frontend', PRI_PM_URL . 'assets/js/frontend.js', array(), PRI_PM_VERSION, true );
+
+		// Load the stylesheet in the page <head> (no flash of unstyled content) on program pages and on pages whose
+		// text contains one of our shortcodes. Elsewhere, for example a page builder that keeps shortcodes outside
+		// the page text, the shortcode loads it by itself a little later.
+		if ( is_singular() ) {
+			$post = get_post();
+			if ( $post && ( PRI_PM_Post_Types::POST_TYPE === $post->post_type
+				|| has_shortcode( $post->post_content, 'pri_programs' )
+				|| has_shortcode( $post->post_content, 'pri_enquiry' ) ) ) {
+				wp_enqueue_style( 'pri-pm-frontend' );
+			}
+		}
 	}
 
 	public static function render( $atts ) {
@@ -169,7 +181,8 @@ class PRI_PM_Shortcode {
 		// Short description: the Excerpt if filled in, otherwise the start of the main text.
 		$excerpt = get_post_field( 'post_excerpt', $id );
 		if ( '' === trim( (string) $excerpt ) ) {
-			$excerpt = wp_trim_words( wp_strip_all_tags( get_post_field( 'post_content', $id ) ), 28 );
+			// strip_shortcodes: so text such as [gallery] in the description never shows on a card.
+			$excerpt = wp_trim_words( wp_strip_all_tags( strip_shortcodes( get_post_field( 'post_content', $id ) ) ), 28 );
 		}
 
 		$thumb = get_the_post_thumbnail( $id, 'medium_large', array( 'loading' => 'lazy' ) );

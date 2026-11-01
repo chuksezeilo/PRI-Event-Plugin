@@ -2,12 +2,17 @@
 Author: Chuks Ezeilo
 Requires at least: 5.8
 Requires PHP: 7.4
-Stable tag: 0.6.1
+Stable tag: 1.0.0
 License: GPLv2 or later
 
 Organise programs, retreats and workshops with automatic Upcoming / Ongoing / Past status.
 
 == Changelog ==
+
+= 1.0.0 =
+* First full release: all modules together (programs, PDFs, shortcode listing, enquiry form, past-event gallery, settings)
+* Review pass: crafted form submissions with list values are ignored safely; shortcode text no longer shows in card descriptions; stylesheet loads in the page head on program pages and pages using the shortcodes
+* Short user guide added
 
 = 0.6.1 =
 * Fix: a bad video link now shows a red warning right under the link field as you type or paste (and a notice after saving in the block editor), instead of silently not saving

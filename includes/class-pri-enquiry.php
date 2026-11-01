@@ -173,7 +173,9 @@ class PRI_PM_Enquiry {
 
 		$fields = array();
 		foreach ( array( 'name', 'email', 'phone', 'message' ) as $f ) {
-			$fields[ $f ] = isset( $_POST[ 'pri_f_' . $f ] ) ? wp_unslash( $_POST[ 'pri_f_' . $f ] ) : '';
+			$raw          = isset( $_POST[ 'pri_f_' . $f ] ) ? wp_unslash( $_POST[ 'pri_f_' . $f ] ) : '';
+			// A crafted request can send a list instead of text; treat that as an empty field.
+			$fields[ $f ] = is_scalar( $raw ) ? (string) $raw : '';
 		}
 		// Keep what was typed so an error does not wipe the form.
 		$state['values']  = array_map( 'sanitize_textarea_field', $fields );
